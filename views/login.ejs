@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="../public/login.css">
+</head>
+<body>
+    <div class="container">
+      <h2>Login User</h2>
+      <div class="loginForm">
+        <form action="" id="loginuser" name="loginuser" method="">
+       
+            <label for="email">Email:</label>
+            <input class="input" type="text" id="email" name="email" placeholder="Enter Email">
+
+            <br>
+
+            <label for="passwd">Password:</label>
+            <input class="input" type="password" id="passwd" name="passwd" placeholder="Enter Password">
+
+            <br>
+
+            <input type="button" value="Login" id="submit">
+
+            <div class="link"></div>
+
+            <br>
+            <a class="route" href="http://localhost:8000/forgot">Forgot Password ?</a>
+        </form>
+        
+    </div>
+</div>
+    
+
+    <script>
+       const displayErrorMsg = (field) =>{
+            let p = document.createElement('p');
+            p.innerHTML = "* Required";
+            field.insertAdjacentElement('afterend' , p);
+            p.classList.add('validated');
+            p.style.color = 'red';
+            p.style.margin = '0px';
+            p.style.fontSize = '12px';
+
+            return false;
+        }
+
+        let submit = document.getElementById('submit');
+
+        submit.addEventListener('click' , async function(e){
+            e.preventDefault();
+
+            let email = document.getElementById('email').value;
+            let passwd = document.getElementById('passwd').value;   
+
+            let validated = document.querySelectorAll('.validated');
+            let isValid = true;
+
+          let inputs = document.querySelectorAll('.input');
+          console.log(inputs);
+
+          inputs.forEach((field) => {
+            if(field.value.trim() === ""){
+                isValid = displayErrorMsg(field);
+                console.log("inside if condition")
+            }
+          });
+
+
+            let data = await fetch('http://localhost:8000/login' , {
+                method:"POST",
+                body:JSON.stringify({ email , passwd  }),
+                headers: { 'Content-Type' : 'application/json' },
+            });
+
+            data = await data.json();
+            console.log(data);
+
+            if(data.success){
+                // localStorage.setItem('token' , `${data.token.token}`);
+                window.location.href = `http://localhost:8000/details`;
+            }
+            else{
+                let div = document.querySelector('.link');
+                let inputs = document.getElementsByTagName('input');
+
+                let p = document.createElement('p');
+                p.classList.add('para');
+                p.style.background = "red";
+                p.style.textAlign = "center";
+                p.innerHTML = "User Login Failed";
+
+                div.appendChild(p); 
+
+                inputs.innerHTML = "";
+            }
+
+        });
+
+
+    </script>
+
+</body>
+</html>

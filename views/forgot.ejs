@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h3{
+            margin-top: 20px;
+            margin-left: 40%;
+        }
+
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+
+        .container{
+            display: flex;
+            /* flex-direction: column;
+            align-items: center;
+            justify-content: center; */
+            height: 100vh;
+            width: 100vw;
+        }
+
+        form{
+            border: 1px solid black;
+            margin: 30px auto;
+            height: 50vh;
+            width: 50vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        form input{
+            margin-top: 20px;
+        }
+
+       
+
+    </style>
+</head>
+<body>
+
+    <h3>Forgot Password</h3>
+
+ <div class="container">
+    <form action="" id="forgot" method="">
+        <input type="text" id="email" name="email" placeholder="Enter Your Email here">
+        <br>
+        <input type="submit" value="Generate" id="generate">
+
+        <div class="link"></div>
+    </form>
+
+
+    <script>
+        let generate = document.getElementById('generate');
+        generate.addEventListener('click' , async function(e){
+            e.preventDefault();
+
+            let email = document.getElementById('email').value;
+
+            let data = await fetch('http://localhost:8000/forgot' , {
+                method:"POST",
+                body:JSON.stringify({ email }),
+                headers: { 'Content-Type' : 'application/json' },
+            });
+
+            data = await data.json();
+            console.log(data);
+
+            if(data.success){
+                let div = document.querySelector('.link');
+
+                let p = document.createElement('div');
+                p.classList.add('reset-link');
+
+                p.innerHTML = `
+                <p> Click Below Link to Reset Your Password</p>
+
+                <a href="http://localhost:8000/reset/?email=${data.mail}">http://localhost:8000/forgot/?email=${data.mail}<a/> `;
+
+                div.appendChild(p);
+
+            }
+            else{
+                let div = document.querySelector('.link');
+
+                let p = document.createElement("p");
+                p.classList.add('reset');
+                p.innerHTML = "Some Error Occured..."
+
+                div.appendChild(p);
+            }
+        });
+    </script>
+ </div>
+</body>
+</html>

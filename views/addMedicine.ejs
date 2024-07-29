@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Medicine</title>
+  <link rel="stylesheet" href="../public/newMedicine.css">
+</head>
+<body>
+  <h1>New Medicines</h1>
+
+  <div class="container">
+    <form action="/add-medicine" id="form" method="post" onsubmit="return validateForm()">
+      <label for="medicine">Medicine Name:</label>
+      <input class="dvalid" type="text" id="medicine" name="medicine" placeholder="Enter MedicineName ...">
+
+      <br>
+
+      <label for="desc">Description:</label>
+      <textarea class="dvalid" name="description" id="desc" placeholder="Description here.."></textarea>
+      <br>
+
+      <label for="type">Medicine-Type:</label>
+      <select class="dvalid" name="medicine_type" id="medicine-type">
+        <option value="">--SELECT--</option>
+        <option value="one_time">One-Time</option>
+        <option value="reccuring">Reccuring</option>
+      </select>
+  
+      <br>
+
+      <div class="one-time">
+        <label for="date">Date:</label>
+        <input type="date" name="date" id="date" placeholder="Enter Date..." class="dvalid">
+        
+        <label for="time">Time:</label>
+        <input type="time" name="time" id="time" placeholder="Enter Time..." class="dvalid">
+      </div>
+
+
+      <div class="reccuring_type">
+        <label for="select">Select Reccuring-Types:</label>
+        <select name="reccuring_type" id="reccuring_type" class="dvalid">
+          <option value="">--SELECT--</option>
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+        </select>
+      </div>
+
+      <div class="daily">  
+        <label for="time">Time:</label>
+        <input type="time" name="daily_time" id="daily-time" class="dvalid">
+
+        <label for="date">Start-Date:</label>
+        <input type="date" name="daily_start_date" id="daily-start-date" placeholder="Start-Date..." class="dvalid">
+
+        <label for="date">End-Date:</label>
+        <input type="date" name="daily_end_date" id="daily-end-date" class="dvalid">
+      </div>
+
+      <div class="weekly">
+        <label for="day">select Day:</label>
+        <select name="day" id="day" class="dvalid">
+          <option value="">--SELECT--</option>
+          <option value="0">Sunday</option>
+          <option value="1">Monday</option>
+          <option value="2">Tuesday</option>
+          <option value="3">Wednesday</option>
+          <option value="4">Thursday</option>
+          <option value="5">Friday</option>
+          <option value="6">Saturday</option>
+        </select>
+        
+        <label for="time">Time:</label>
+        <input type="time" name="weekly_time" id="weekly-time" class="dvalid">
+
+        <label for="date">Start-Date:</label>
+        <input type="date" name="weekly_start_date" id="weekly-start-date" placeholder="Start-Date..." class="dvalid">
+
+        <label for="date">End-Date:</label>
+        <input type="date" name="weekly_end_date" id="weekly-end-date" class="dvalid">
+        
+      </div>
+
+      <input type="submit" value="SUBMIT" id="submit" name="submit">
+
+      <div class="errormsg"></div>
+    </form>
+  </div>
+
+  <script src="../public/medicine.js"></script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User-Data</title>
+  <link rel="stylesheet" href="../public/userDetails.css">
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <h2>Health and Wellness Management</h2>
+
+  <button name="logout" id="logout">LogOut</button>
+  <button name="logout_all" id="logout_all">LogOut from All-Device</button>
+  <button name="logout_other" id="logout_other">LogOut from Other-Devices</button>
+
+  <div class="msgs"></div>
+
+  <a href="/getReports">Show-Reports</a>
+
+  <div class="container">
+    <table>
+      <tr>
+        <th>FirstName</th>
+        <th>LastName</th>
+        <th>Email</th>
+        <th>Action</th>
+      </tr>
+
+      <tr>
+        <td><%= user.firstName %></td>
+        <td><%= user.lastName %></td>
+        <td><%= user.email %></td>
+        <td> <a href="http://localhost:8000/add-medicine">Add-Medicine</a> </td>
+
+      </tr>
+    </table>
+
+    <div class="medicines">
+
+    <% if (medicines.length > 0) { %>
+      <h2>Medicines Details</h2>
+      <table>
+       <tr>
+         <th>Id</th>
+         <th>Name</th>
+         <th>Description</th>
+       </tr>
+  
+       <% medicines.forEach((element) => { %>
+         <tr>
+           <td><%= element.id %></td>
+           <td><%= element.medicineName %></td>
+           <td><%= element.description %></td>
+         </tr>
+       <% }) %>
+      </table>
+     <% } %>
+  
+    </div>
+
+
+    <div class="btn">
+        
+      <a class="<%= page <= 1 ? 'disabled' : '' %>" href="/details?page=1"> <<  </a> 
+
+      <a class="<%= page <= 1 ? 'disabled' : '' %>" href="/details?page=<%= page - 1 > 0? page - 1 : 1 %>" > < </a>  
+
+      <a class="disabled" href="/details?page=page"><%= page %></a>
+
+      <a class="<%= page >= lastPage ? 'disabled' : '' %>" href="/details?page=<%=  page + 1 < lastPage ? page + 1 : lastPage %>"> > </a>
+
+      <a class="<%= page >= lastPage ? 'disabled' : '' %>" href="/details?page=<%= lastPage %>"> >> </a> 
+  </div>
+
+  <!-- <button name="generate_report" id="generate_report">Generate Report</button> -->
+  <!-- <div class="reports"></div> -->
+
+  <script>
+    let btn = document.getElementById('logout');
+
+    btn.addEventListener('click' , async function(e){
+      e.preventDefault();
+  
+      // localStorage.removeItem('token');
+
+      let data = await fetch("http://localhost:8000/logout" , {
+                method:"GET",
+                headers:{ 'Content-Type' : 'application/json' }
+            });
+            
+            data = await data.json();
+
+            if(data.success){
+              window.location.href = "http://localhost:8000/login";
+            }
+    });
+    
+
+    let logoutAll = document.getElementById('logout_all');
+    let logoutOther = document.getElementById('logout_other');
+
+    logoutAll.addEventListener('click' , async(e) => {
+        e.preventDefault();
+
+        let data = await fetch("http://localhost:8000/logoutAllDevices" , {
+                  method:"GET",
+                  headers:{ 'Content-Type' : 'application/json' }
+              });
+              
+              data = await data.json();
+
+              if(data.success){
+                window.location.href = "http://localhost:8000/login";
+              }
+      });
+
+    logoutOther.addEventListener('click' , async(e) => {
+      e.preventDefault();
+
+        let data = await fetch("http://localhost:8000/logout-other-devices" , {
+            method:"GET",
+            headers:{ 'Content-Type' : 'application/json' }
+        });
+        data = await data.json();
+
+        if(data.success){
+          let msgDiv = document.querySelector('.msgs');
+
+          let p = document.createElement('p');
+          p.classList.add("succesmsg");
+          p.style.width = "300px"
+          p.innerHTML = "Logged-Out Successfully from ohter Devices";
+
+          msgDiv.appendChild(p);
+        }      
+      });
+ 
+ </script>
+
+ <script src="../public/javascript/logout.js"></script>
+ 
+</body>
+</html>

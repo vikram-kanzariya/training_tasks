@@ -1,0 +1,127 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+h2{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+h3,h4{
+  text-align: center;
+  margin-top: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttons a{
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  border: 1px solid black;
+  border-radius: 8px;
+  margin: 15px;
+}
+
+.buttons {
+  margin-top: 30px;
+  margin-left: 20%;
+}
+
+.buttons a{
+  margin-top: 30px;
+  padding: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button{
+  margin: 10px;
+}
+
+table th{
+  background-color: rgb(212, 164, 164);
+  text-align: center;
+  padding: 5px;
+
+}
+table td{
+  background-color: rgb(145, 202, 221);
+  
+  text-align: center;
+  padding: 10px;
+}
+
+p{
+  width: 200px;
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: lightgreen;
+  padding: 5px;
+  border-radius: 6px;
+}
+
+#logout , #logout_all , #logout_other{
+  font-size: 14px;
+  padding: 7px;
+  font-weight: bold;
+  background-color: rgb(33, 33, 48)  ;
+  color: white;
+  border-radius: 10px;
+}
+
+#logout:hover{
+  background-color: crimson;
+}
+
+.buttons a:hover{
+  background-color: gray;
+}
+
+a{
+  text-decoration: none;
+  color: black;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  background-color: white;
+  padding: 7px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+a:hover{
+  background-color: black;
+  color: white;
+}
+
+.btn{
+  margin: 15px auto;
+  text-align: center;
+}
+.disabled{
+  cursor:not-allowed;
+  pointer-events: none;
+  color: green;
+}
+
+table{
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  margin: 10px;
+  padding: 2px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 12px black;
+  /* background-image: linear-gradient(orange , white , green); */
+  line-height: 1.5;
+  outline: none;
+  line-gap-override: 5%;
+}

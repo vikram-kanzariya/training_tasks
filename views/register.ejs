@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RegistrationForm</title>
+    <link rel="stylesheet" href="../public/register.css">
+</head>
+<body>
+  <h2>Registration Form</h2>
+
+    <div class="container">
+      <div class="form">
+        <form action="" id="registeruser" name="registeruser" method="" onsubmit="return validateData()">
+
+            <div class="reg">
+                            
+            <label for="fname">Fname:</label>
+            <input type="text" class="input" id="fname" name="fname" placeholder="Enter FirstName...">
+
+            <br>
+
+            <label for="lname">Lname:</label>
+            <input type="text" class="input" id="lname" name="lname" placeholder="Enter LastName...">
+
+            <br>
+
+            <label for="phone">PhoneNumber:</label>
+            <input type="text" class="input" id="number" name="number" placeholder="Enter PhoneNumber...">
+
+            <br>
+
+            <label for="email">Email:</label>
+            <input type="text" class="input" id="email" name="email" placeholder="Enter Email">
+
+            <br>
+
+            <label for="passwd">Password:</label>
+            <input type="password" class="input" id="passwd" name="passwd" placeholder="Enter Password">
+
+            <br>
+
+            <label for="cpasswd">Confirm-Password:</label>
+            <input type="password" class="input" id="cpasswd" name="cpasswd" placeholder="Re-Enter Password">
+
+            </div>
+
+            <br>
+
+            <input type="button" value="Register" id="submit">
+            
+            <br>
+            
+            <p>Already have an Account <a href="http://localhost:8000/login">Login</a></p>
+
+            <div class="link"></div>
+        </form>
+      </div>
+    </div>
+    
+
+    <script>
+        const displayErrorMsg = (field) =>{
+            let p = document.createElement('p');
+            p.innerHTML = "* Required";
+            field.insertAdjacentElement('afterend' , p);
+            p.classList.add('validated');
+            p.style.color = 'red';
+            p.style.margin = '0px';
+            p.style.fontSize = '12px';
+
+            return false;
+        }
+
+        let submit = document.getElementById('submit');
+        submit.addEventListener('click' , async function(e){
+            e.preventDefault();
+
+            let fname = document.getElementById('fname').value;
+            let lname = document.getElementById('lname').value;
+            let number = document.getElementById('number').value;
+            let email = document.getElementById('email').value;
+            let passwd = document.getElementById('passwd').value;
+            let cpasswd = document.getElementById('cpasswd').value;
+
+
+            let data = await fetch('http://localhost:8000/register' , {
+                method:"POST",
+                body:JSON.stringify({ fname , lname , number , email , passwd , cpasswd }),
+                headers: { 'Content-Type' : 'application/json' },
+            });
+
+            data = await data.json();
+            console.log(data)
+
+
+            // ---> Here the User has Registered <---
+            if(data.success){
+                let div = document.querySelector('.link');
+                let p = document.createElement("p");
+                p.classList.add('activeUser');
+
+                p.innerHTML = `<a href="http://localhost:8000/token/?token=${data.token}&email=${data.email}">Click Here<a/> to Activate your Account`;
+
+                div.appendChild(p);
+
+                // window.location.href = "http://localhost:8000/login";
+            }
+            else{
+
+                let validated = document.querySelectorAll('.validated');
+                let isValid = true;
+
+                if(validated.length > 0){
+                    validated.forEach((element) => {
+                        element.remove();
+                    });
+                }
+
+                let inputs = document.querySelectorAll('.input');
+                console.log(inputs);
+
+
+                inputs.forEach((field) => {
+                    if(field.value.trim() === ""){
+                        isValid = displayErrorMsg(field);
+                    }
+                });
+
+                let div = document.querySelector('.link');
+                let p = document.createElement("p");
+                p.classList.add('activeUser');
+                p.style.background = "red";
+                p.style.textAlign = "center";
+
+                p.innerHTML = 'Some Error Occured During Registration...';
+                div.appendChild(p);
+            }
+
+        });
+    </script>
+
+</body>
+</html>
